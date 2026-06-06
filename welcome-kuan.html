@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>歡迎管蒞臨美國</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f5f4f0;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 2rem 1rem 4rem;
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .flag { font-size: 40px; margin-bottom: 8px; }
+
+    .page-title {
+      font-size: 24px;
+      font-weight: 600;
+      color: #1a1a1a;
+      letter-spacing: -0.01em;
+    }
+
+    .progress-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .prog-bar {
+      flex: 1;
+      height: 5px;
+      background: #e0ddd6;
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .prog-fill {
+      height: 100%;
+      border-radius: 99px;
+      background: #1D9E75;
+      transition: width 0.4s ease;
+    }
+
+    .prog-text {
+      font-size: 12px;
+      color: #888;
+      white-space: nowrap;
+    }
+
+    .draw-area {
+      background: #fff;
+      border: 1px dashed #d0cec8;
+      border-radius: 16px;
+      padding: 1.1rem 1.25rem;
+      margin-bottom: 12px;
+    }
+
+    .draw-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .draw-label {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .draw-btn {
+      font-size: 13px;
+      padding: 6px 16px;
+      border-radius: 8px;
+      border: 1px solid #d0cec8;
+      background: transparent;
+      color: #333;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .draw-btn:hover { background: #f5f4f0; }
+
+    .draw-result {
+      margin-top: 12px;
+      display: none;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .draw-result.show { display: flex; }
+
+    .draw-result-emoji { font-size: 22px; }
+
+    .draw-result-text {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+
+    /* flip card */
+    .card-wrap {
+      perspective: 1000px;
+      width: 100%;
+      height: 160px;
+      margin-bottom: 12px;
+      cursor: pointer;
+    }
+
+    .card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.5s ease;
+      border-radius: 16px;
+    }
+
+    .card-wrap.flipped .card-inner { transform: rotateY(180deg); }
+
+    .card-face {
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #e0ddd6;
+    }
+
+    .card-back-face {
+      background: #fff;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .card-back-face .num {
+      font-size: 36px;
+      font-weight: 600;
+      color: #ccc;
+    }
+
+    .card-back-face .hint {
+      font-size: 12px;
+      color: #bbb;
+    }
+
+    .card-front-face {
+      background: #fff;
+      transform: rotateY(180deg);
+      flex-direction: column;
+      gap: 12px;
+      padding: 1.5rem;
+    }
+
+    .card-front-face .emoji { font-size: 34px; }
+
+    .card-front-face .title {
+      font-size: 19px;
+      font-weight: 600;
+      color: #1a1a1a;
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    .card-wrap.done .card-face { border-color: #1D9E75; }
+    .card-wrap.done .card-front-face { background: #E1F5EE; }
+
+    .done-badge {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #1D9E75;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .done-badge i { font-size: 13px; color: #fff; }
+
+    .complete-msg {
+      text-align: center;
+      font-size: 14px;
+      color: #666;
+      padding: 2rem 1rem;
+      display: none;
+    }
+
+    .complete-msg.show { display: block; }
+    .complete-msg .big { font-size: 36px; margin-bottom: 8px; }
+    .complete-msg .text { font-size: 16px; font-weight: 600; color: #1a1a1a; }
+    .complete-msg .sub { font-size: 13px; color: #888; margin-top: 4px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="page-header">
+      <div class="flag">🇺🇸</div>
+      <div class="page-title">歡迎管蒞臨美國</div>
+      <div class="progress-row">
+        <div class="prog-bar"><div class="prog-fill" id="pf" style="width:0%"></div></div>
+        <div class="prog-text" id="pt">0 / 11</div>
+      </div>
+    </div>
+
+    <div class="draw-area">
+      <div class="draw-top">
+        <div class="draw-label">今晚吃什麼？抽一張決定</div>
+        <button class="draw-btn" onclick="drawDinner()">抽籤</button>
+      </div>
+      <div class="draw-result" id="draw-res">
+        <span class="draw-result-emoji" id="dr-emoji"></span>
+        <span class="draw-result-text" id="dr-text"></span>
+      </div>
+    </div>
+
+    <div id="main-list"></div>
+
+    <div class="complete-msg" id="done-msg">
+      <div class="big">🎉</div>
+      <div class="text">恭喜管完成所有任務</div>
+      <div class="sub">正式取得美國生活體驗認證</div>
+    </div>
+  </div>
+
+  <script>
+    const tasks = [
+      { emoji: "🛒", title: "Trader Joe's 掃貨", id: "tj" },
+      { emoji: "⛽", title: "幫車子加油", id: "gas" },
+      { emoji: "🧋", title: "在美國喝台灣沒有的手搖店", id: "drink" },
+      { emoji: "🎬", title: "AMC / Alamo 看電影", id: "movie" },
+      { emoji: "😄", title: "跟路人說 Have a good one!", id: "hago" },
+      { emoji: "💸", title: "寫 tip", id: "tip" },
+      { emoji: "🚗", title: "坐 Waymo 無人車", id: "waymo" },
+      { emoji: "🧭", title: "一路向北", id: "north" },
+    ];
+
+    const dinnerOptions = [
+      { emoji: "🍔", title: "In-N-Out", id: "ino" },
+      { emoji: "🐄", title: "Chick-fil-A", id: "cfa" },
+      { emoji: "🌯", title: "Chipotle", id: "chip" },
+    ];
+
+    const completed = {};
+    const dinnerDone = {};
+    const TOTAL = 11;
+
+    function updateProgress() {
+      const done = Object.keys(completed).filter(k => completed[k]).length;
+      document.getElementById('pf').style.width = Math.round(done / TOTAL * 100) + '%';
+      document.getElementById('pt').textContent = done + ' / ' + TOTAL;
+      document.getElementById('done-msg').classList.toggle('show', done === TOTAL);
+    }
+
+    function makeCard(t, idx) {
+      const wrap = document.createElement('div');
+      wrap.className = 'card-wrap';
+      wrap.id = 'wrap-' + t.id;
+      wrap.dataset.state = 'hidden';
+      wrap.innerHTML = `
+        <div class="card-inner">
+          <div class="card-face card-back-face">
+            <div class="num">${idx}</div>
+            <div class="hint">點擊翻開</div>
+          </div>
+          <div class="card-face card-front-face" id="front-${t.id}">
+            <div class="emoji">${t.emoji}</div>
+            <div class="title">${t.title}</div>
+          </div>
+        </div>
+      `;
+      wrap.addEventListener('click', () => {
+        if (wrap.dataset.state === 'hidden') {
+          wrap.classList.add('flipped');
+          wrap.dataset.state = 'open';
+        } else if (wrap.dataset.state === 'open' && !completed[t.id]) {
+          completed[t.id] = true;
+          wrap.classList.add('done');
+          wrap.dataset.state = 'done';
+          const front = document.getElementById('front-' + t.id);
+          const badge = document.createElement('div');
+          badge.className = 'done-badge';
+          badge.innerHTML = '<i class="ti ti-check"></i>';
+          front.appendChild(badge);
+          updateProgress();
+        }
+      });
+      document.getElementById('main-list').appendChild(wrap);
+    }
+
+    tasks.forEach((t, i) => makeCard(t, i + 1));
+
+    function drawDinner() {
+      const remaining = dinnerOptions.filter(d => !dinnerDone[d.id]);
+      if (remaining.length === 0) {
+        document.getElementById('dr-emoji').textContent = '✅';
+        document.getElementById('dr-text').textContent = '三家都吃過了！';
+        document.getElementById('draw-res').classList.add('show');
+        return;
+      }
+      const pick = remaining[Math.floor(Math.random() * remaining.length)];
+      dinnerDone[pick.id] = true;
+      completed[pick.id] = true;
+      document.getElementById('dr-emoji').textContent = pick.emoji;
+      document.getElementById('dr-text').textContent = '今晚吃 ' + pick.title + '！';
+      document.getElementById('draw-res').classList.add('show');
+      updateProgress();
+    }
+
+    updateProgress();
+  </script>
+</body>
+</html>
