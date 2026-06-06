@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>歡迎管蒞臨美國</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', -apple-system, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 2.5rem 1rem 5rem;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* ── background scene ── */
+    .bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+    .bg-sky { position: absolute; inset: 0; background: #87CEEB; }
+    .bg-sun {
+      position: absolute; top: 36px; right: 60px;
+      width: 80px; height: 80px;
+      background: #FFD84D; border-radius: 50%;
+    }
+    .bg-sun::before {
+      content: ''; position: absolute; inset: -18px;
+      border-radius: 50%; background: rgba(255,216,77,0.22);
+    }
+    .cloud { position: absolute; background: #fff; border-radius: 999px; }
+    .cloud::before, .cloud::after { content: ''; position: absolute; background: #fff; border-radius: 50%; }
+    .c1 { width: 80px; height: 24px; top: 48px; left: 80px; opacity: 0.85; }
+    .c1::before { width: 36px; height: 36px; top: -18px; left: 12px; }
+    .c1::after  { width: 28px; height: 28px; top: -12px; left: 36px; }
+    .c2 { width: 60px; height: 18px; top: 80px; left: 220px; opacity: 0.7; }
+    .c2::before { width: 26px; height: 26px; top: -13px; left: 8px; }
+    .c2::after  { width: 20px; height: 20px; top: -9px; left: 28px; }
+    .bg-ocean {
+      position: absolute; left: 0; right: 0; bottom: 140px; height: 90px;
+      background: #2E86C1;
+    }
+    .bg-ocean::before {
+      content: ''; position: absolute; top: -10px; left: 0; right: 0;
+      height: 20px; background: #5DADE2;
+      border-radius: 50% 50% 0 0 / 10px 10px 0 0;
+    }
+    .bg-sand { position: absolute; left: 0; right: 0; bottom: 0; height: 145px; background: #F0C97A; }
+    .bg-sand::before {
+      content: ''; position: absolute; top: -14px; left: 0; right: 0;
+      height: 28px; background: #F5D68A;
+      border-radius: 50% 60% 40% 50% / 14px 14px 0 0;
+    }
+    .palm { position: absolute; bottom: 120px; left: 16px; }
+    .palm-trunk {
+      width: 10px; height: 90px; background: #8B6914;
+      border-radius: 5px; transform: rotate(-6deg);
+      transform-origin: bottom center; margin: 0 auto;
+    }
+    .palm-leaves { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); }
+    .leaf { position: absolute; width: 52px; height: 12px; background: #2D8A2D; border-radius: 0 50% 50% 0; transform-origin: left center; }
+    .l1 { transform: rotate(-40deg) translateX(-4px); }
+    .l2 { transform: rotate(0deg) translateX(-4px); }
+    .l3 { transform: rotate(40deg) translateX(-4px); }
+    .l4 { transform: rotate(-70deg) translateX(-4px); width: 38px; }
+    .l5 { transform: rotate(70deg) translateX(-4px); width: 38px; }
+    .palm-r { position: absolute; bottom: 128px; right: 20px; }
+    .palm-r .palm-trunk { height: 65px; transform: rotate(5deg); width: 8px; }
+    .palm-r .leaf { width: 40px; height: 10px; background: #3A9A3A; }
+    .wave { position: absolute; height: 3px; background: rgba(255,255,255,0.35); border-radius: 99px; }
+    .w1 { width: 60px; top: 22px; left: 80px; }
+    .w2 { width: 40px; top: 38px; left: 160px; }
+    .w3 { width: 50px; top: 52px; left: 50px; }
+    .w4 { width: 35px; top: 28px; right: 80px; }
+
+    /* ── content ── */
+    .wrap { width: 100%; max-width: 480px; position: relative; z-index: 1; }
+
+    .page-header { text-align: center; margin-bottom: 2rem; }
+
+    .header-tag {
+      display: inline-block;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: #7B3F00; background: #FFE5B4;
+      border-radius: 99px; padding: 4px 14px; margin-bottom: 12px;
+    }
+
+    .page-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 30px; font-weight: 700; color: #1C1C1C;
+      line-height: 1.2; text-shadow: 0 1px 0 rgba(255,255,255,0.6);
+    }
+
+    .page-subtitle {
+      font-size: 14px; font-weight: 500;
+      color: #7B3F00; margin-top: 6px; letter-spacing: 0.05em;
+    }
+
+    .header-deco { font-size: 26px; margin-top: 8px; letter-spacing: 4px; }
+
+    .progress-row { display: flex; align-items: center; gap: 10px; margin-top: 18px; }
+    .prog-bar { flex: 1; height: 6px; background: rgba(255,255,255,0.5); border-radius: 99px; overflow: hidden; }
+    .prog-fill { height: 100%; border-radius: 99px; background: #E07A2F; transition: width 0.4s ease; }
+    .prog-text { font-size: 12px; font-weight: 600; color: #7B3F00; white-space: nowrap; }
+
+    .draw-area {
+      background: rgba(255,255,255,0.88);
+      border: 1.5px dashed #EAC98A;
+      border-radius: 18px; padding: 1.1rem 1.25rem;
+      margin-bottom: 12px; backdrop-filter: blur(4px);
+    }
+    .draw-top { display: flex; align-items: center; justify-content: space-between; }
+    .draw-label { font-size: 13px; font-weight: 500; color: #7A5C38; }
+    .draw-btn {
+      font-size: 12px; font-weight: 600; padding: 6px 16px;
+      border-radius: 99px; border: 1.5px solid #E07A2F;
+      background: transparent; color: #E07A2F; cursor: pointer;
+      transition: all 0.15s; font-family: 'DM Sans', sans-serif;
+    }
+    .draw-btn:hover { background: #E07A2F; color: #fff; }
+    .draw-result { margin-top: 12px; display: none; align-items: center; gap: 10px; }
+    .draw-result.show { display: flex; }
+    .draw-result-emoji { font-size: 22px; }
+    .draw-result-text { font-size: 15px; font-weight: 600; color: #1C1C1C; }
+
+    /* flip card */
+    .card-wrap { perspective: 1000px; width: 100%; height: 180px; margin-bottom: 12px; cursor: pointer; }
+    .card-inner {
+      position: relative; width: 100%; height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.55s cubic-bezier(0.4,0,0.2,1);
+      border-radius: 18px;
+    }
+    .card-wrap.flipped .card-inner { transform: rotateY(180deg); }
+    .card-face {
+      position: absolute; inset: 0; border-radius: 18px;
+      backface-visibility: hidden; -webkit-backface-visibility: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .card-back-face {
+      background: rgba(255,252,240,0.92);
+      border: 1.5px solid #EAC98A;
+      flex-direction: column; gap: 6px; backdrop-filter: blur(4px);
+    }
+    .card-back-face .num {
+      font-family: 'Playfair Display', serif;
+      font-size: 44px; font-weight: 700; color: #DDB97A;
+    }
+    .card-back-face .hint {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase; color: #C4A46A;
+    }
+    .card-front-face {
+      background: #2A7BB5; border: 1.5px solid #2A7BB5;
+      transform: rotateY(180deg);
+      flex-direction: column; gap: 8px; padding: 1.5rem;
+    }
+    .card-front-face .emoji { font-size: 34px; }
+    .card-front-face .title {
+      font-size: 20px; font-weight: 600; color: #fff;
+      text-align: center; line-height: 1.3;
+    }
+    .card-front-face .note {
+      font-size: 13px; color: rgba(255,255,255,0.75);
+      text-align: center; line-height: 1.4;
+    }
+    .card-wrap.done .card-back-face { border-color: #E07A2F; }
+    .card-wrap.done .card-front-face { background: #E07A2F; border-color: #E07A2F; }
+    .done-badge {
+      width: 26px; height: 26px; border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .done-badge i { font-size: 14px; color: #fff; }
+
+    .complete-msg { text-align: center; padding: 2.5rem 1rem; display: none; }
+    .complete-msg.show { display: block; }
+    .complete-msg .big { font-size: 40px; margin-bottom: 10px; }
+    .complete-msg .text { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: #1C1C1C; }
+    .complete-msg .sub { font-size: 13px; color: #7A5C38; margin-top: 6px; }
+
+    /* confetti */
+    .confetti-piece {
+      position: fixed; width: 10px; height: 10px; top: -20px;
+      border-radius: 2px; pointer-events: none; z-index: 999;
+      animation: confetti-fall linear forwards;
+    }
+    @keyframes confetti-fall {
+      0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+      80%  { opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg">
+    <div class="bg-sky"></div>
+    <div class="bg-sun"></div>
+    <div class="cloud c1"></div>
+    <div class="cloud c2"></div>
+    <div class="bg-ocean">
+      <div class="wave w1"></div>
+      <div class="wave w2"></div>
+      <div class="wave w3"></div>
+      <div class="wave w4"></div>
+    </div>
+    <div class="bg-sand"></div>
+    <div class="palm">
+      <div class="palm-leaves">
+        <div class="leaf l1"></div><div class="leaf l2"></div>
+        <div class="leaf l3"></div><div class="leaf l4"></div><div class="leaf l5"></div>
+      </div>
+      <div class="palm-trunk"></div>
+    </div>
+    <div class="palm-r">
+      <div class="palm-leaves">
+        <div class="leaf l1"></div><div class="leaf l2"></div>
+        <div class="leaf l3"></div><div class="leaf l4"></div>
+      </div>
+      <div class="palm-trunk"></div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="page-header">
+      <div class="header-tag">California Edition</div>
+      <div class="page-title">歡迎管蒞臨美國</div>
+      <div class="page-subtitle">美國體驗卡</div>
+      <div class="header-deco">🌴🇺🇸🌊</div>
+      <div class="progress-row">
+        <div class="prog-bar"><div class="prog-fill" id="pf" style="width:0%"></div></div>
+        <div class="prog-text" id="pt">0 / 11</div>
+      </div>
+    </div>
+
+    <div class="draw-area">
+      <div class="draw-top">
+        <div class="draw-label">今晚吃什麼？抽一張決定</div>
+        <button class="draw-btn" onclick="drawDinner()">抽籤</button>
+      </div>
+      <div class="draw-result" id="draw-res">
+        <span class="draw-result-emoji" id="dr-emoji"></span>
+        <span class="draw-result-text" id="dr-text"></span>
+      </div>
+    </div>
+
+    <div id="main-list"></div>
+
+    <div class="complete-msg" id="done-msg">
+      <div class="big">🎉</div>
+      <div class="text">恭喜管完成所有任務</div>
+      <div class="sub">正式取得美國生活體驗認證</div>
+    </div>
+  </div>
+
+  <script>
+    const tasks = [
+      { emoji: "🏖️", title: "Santa Cruz", note: "", id: "sc" },
+      { emoji: "🧭", title: "一路向北", note: "", id: "north" },
+      { emoji: "🛒", title: "Trader Joe's 掃貨", note: "", id: "tj" },
+      { emoji: "⛽", title: "幫車子加油", note: "", id: "gas" },
+      { emoji: "🧋", title: "在美國喝台灣沒有的手搖店", note: "", id: "drink" },
+      { emoji: "🎬", title: "AMC / Alamo 看電影", note: "", id: "movie" },
+      { emoji: "😄", title: "跟路人說 Have a good one!", note: "", id: "hago" },
+      { emoji: "💸", title: "寫 tip", note: "", id: "tip" },
+      { emoji: "🚗", title: "坐 Waymo 無人車", note: "", id: "waymo" },
+    ];
+
+    const dinnerOptions = [
+      { emoji: "🍔", title: "In-N-Out", id: "ino" },
+      { emoji: "🐄", title: "Chick-fil-A", id: "cfa" },
+      { emoji: "🌯", title: "Chipotle", id: "chip" },
+    ];
+
+    const completed = {};
+    const dinnerDone = {};
+    const TOTAL = 11;
+    const COLORS = ['#FF595E','#FFCA3A','#6A4C93','#1982C4','#8AC926','#FF924C','#F72585','#4CC9F0'];
+
+    function updateProgress() {
+      const done = Object.keys(completed).filter(k => completed[k]).length;
+      document.getElementById('pf').style.width = Math.round(done / TOTAL * 100) + '%';
+      document.getElementById('pt').textContent = done + ' / ' + TOTAL;
+      if (done === TOTAL) {
+        document.getElementById('done-msg').classList.add('show');
+        launchConfetti(120);
+      }
+    }
+
+    function launchConfetti(count) {
+      for (let i = 0; i < count; i++) {
+        setTimeout(() => {
+          const el = document.createElement('div');
+          el.className = 'confetti-piece';
+          const size = 7 + Math.random() * 8;
+          el.style.cssText = `
+            left: ${Math.random() * 100}vw;
+            width: ${size}px; height: ${size}px;
+            background: ${COLORS[Math.floor(Math.random() * COLORS.length)]};
+            border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
+            animation-duration: ${1.4 + Math.random() * 1.6}s;
+            animation-delay: ${Math.random() * 0.6}s;
+          `;
+          document.body.appendChild(el);
+          el.addEventListener('animationend', () => el.remove());
+        }, i * 12);
+      }
+    }
+
+    function miniConfetti(x, y) {
+      for (let i = 0; i < 28; i++) {
+        const el = document.createElement('div');
+        el.className = 'confetti-piece';
+        const angle = (Math.random() * 360) * Math.PI / 180;
+        const dist = 60 + Math.random() * 80;
+        const size = 6 + Math.random() * 6;
+        el.style.cssText = `
+          left: ${x}px; top: ${y}px;
+          width: ${size}px; height: ${size}px;
+          background: ${COLORS[Math.floor(Math.random() * COLORS.length)]};
+          border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
+          animation-duration: 0s;
+        `;
+        document.body.appendChild(el);
+        el.animate([
+          { transform: 'translate(0,0) rotate(0deg)', opacity: 1 },
+          { transform: `translate(${Math.cos(angle)*dist}px, ${Math.sin(angle)*dist + 60}px) rotate(${360 + Math.random()*360}deg)`, opacity: 0 }
+        ], { duration: 800 + Math.random() * 600, easing: 'ease-out', fill: 'forwards' })
+          .onfinish = () => el.remove();
+      }
+    }
+
+    function makeCard(t, idx) {
+      const wrap = document.createElement('div');
+      wrap.className = 'card-wrap';
+      wrap.id = 'wrap-' + t.id;
+      wrap.dataset.state = 'hidden';
+      wrap.innerHTML = `
+        <div class="card-inner">
+          <div class="card-face card-back-face">
+            <div class="num">${idx}</div>
+            <div class="hint">點擊翻開</div>
+          </div>
+          <div class="card-face card-front-face" id="front-${t.id}">
+            <div class="emoji">${t.emoji}</div>
+            <div class="title">${t.title}</div>
+            ${t.note ? `<div class="note">${t.note}</div>` : ''}
+          </div>
+        </div>
+      `;
+      wrap.addEventListener('click', (e) => {
+        if (wrap.dataset.state === 'hidden') {
+          wrap.classList.add('flipped');
+          wrap.dataset.state = 'open';
+        } else if (wrap.dataset.state === 'open' && !completed[t.id]) {
+          completed[t.id] = true;
+          wrap.classList.add('done');
+          wrap.dataset.state = 'done';
+          const front = document.getElementById('front-' + t.id);
+          const badge = document.createElement('div');
+          badge.className = 'done-badge';
+          badge.innerHTML = '<i class="ti ti-check"></i>';
+          front.appendChild(badge);
+          const r = wrap.getBoundingClientRect();
+          miniConfetti(r.left + r.width / 2, r.top + r.height / 2);
+          updateProgress();
+        }
+      });
+      document.getElementById('main-list').appendChild(wrap);
+    }
+
+    tasks.forEach((t, i) => makeCard(t, i + 1));
+
+    function drawDinner() {
+      const remaining = dinnerOptions.filter(d => !dinnerDone[d.id]);
+      if (remaining.length === 0) {
+        document.getElementById('dr-emoji').textContent = '✅';
+        document.getElementById('dr-text').textContent = '三家都吃過了！';
+        document.getElementById('draw-res').classList.add('show');
+        return;
+      }
+      const pick = remaining[Math.floor(Math.random() * remaining.length)];
+      dinnerDone[pick.id] = true;
+      completed[pick.id] = true;
+      document.getElementById('dr-emoji').textContent = pick.emoji;
+      document.getElementById('dr-text').textContent = '今晚吃 ' + pick.title + '！';
+      document.getElementById('draw-res').classList.add('show');
+      const btn = document.querySelector('.draw-btn');
+      const r = btn.getBoundingClientRect();
+      miniConfetti(r.left + r.width / 2, r.top + r.height / 2);
+      updateProgress();
+    }
+
+    updateProgress();
+  </script>
+</body>
+</html>
