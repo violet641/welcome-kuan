@@ -280,14 +280,15 @@
 
     const completed = {};
     const dinnerDone = {};
-    const TOTAL = 11;
+    const TOTAL = 12;
     const COLORS = ['#FF595E','#FFCA3A','#6A4C93','#1982C4','#8AC926','#FF924C','#F72585','#4CC9F0'];
 
     function updateProgress() {
       const done = Object.keys(completed).filter(k => completed[k]).length;
-      document.getElementById('pf').style.width = Math.round(done / TOTAL * 100) + '%';
+      const progressPercent = Math.min(Math.round(done / TOTAL * 100), 100);
+      document.getElementById('pf').style.width = progressPercent + '%';
       document.getElementById('pt').textContent = done + ' / ' + TOTAL;
-      if (done === TOTAL) {
+      if (done >= TOTAL) {
         document.getElementById('done-msg').classList.add('show');
         launchConfetti(120);
       }
